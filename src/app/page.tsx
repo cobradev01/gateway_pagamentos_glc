@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const agents = [
-  { icon: "🔍", name: "DetectorAgent",     tag: "DETECTOR",     tagColor: "#3b82f6", desc: "Monitora falhas, timeouts e anomalias em tempo real. Sugere retry automático ou escalonamento." },
-  { icon: "🛡️", name: "FraudAgent",        tag: "FRAUDE",       tagColor: "#ef4444", desc: "Score de risco 0–100 por transação. Bloqueia automaticamente riscos CRITICAL antes da captura." },
-  { icon: "💬", name: "SupportAgent",      tag: "SUPORTE",      tagColor: "#8b5cf6", desc: "Diagnóstico técnico sob demanda. Rascunha resposta ao cliente com base no histórico da transação." },
-  { icon: "🤖", name: "OrchestratorAgent", tag: "ORQUESTRADOR", tagColor: "#f59e0b", desc: "Coordena os demais agentes e toma a decisão final: APPROVE, RETRY, BLOCK ou ESCALATE_HUMAN." },
+  { icon: "🔍", name: "Agente Detector",     tag: "DETECTOR",     tagColor: "#3b82f6", desc: "Monitora falhas, timeouts e anomalias em tempo real. Sugere retry automático ou escalonamento." },
+  { icon: "🛡️", name: "Agente Antifraude",  tag: "FRAUDE",       tagColor: "#ef4444", desc: "Score de risco 0–100 por transação. Bloqueia automaticamente riscos CRITICAL antes da captura." },
+  { icon: "💬", name: "Agente de Suporte",  tag: "SUPORTE",      tagColor: "#8b5cf6", desc: "Diagnóstico técnico sob demanda. Rascunha resposta ao cliente com base no histórico da transação." },
+  { icon: "🤖", name: "Agente Orquestrador", tag: "ORQUESTRADOR", tagColor: "#f59e0b", desc: "Coordena os demais agentes e toma a decisão final: APROVAR, RETRY, BLOQUEAR ou ESCALAR HUMANO." },
 ];
 
 const endpoints = [

@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { errorResponse } from "@/lib/auth";
 import { orchestrate } from "@/agents/orchestrator";
 
+export const dynamic = "force-dynamic";
+
 // Internal endpoint to simulate transactions for demo purposes
 export async function POST(req: NextRequest) {
   const apiKey = req.headers.get("x-api-key");

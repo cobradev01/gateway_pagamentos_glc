@@ -3,6 +3,8 @@ import { answerSupport } from "@/agents/support";
 import { prisma } from "@/lib/prisma";
 import { errorResponse } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   const apiKey = req.headers.get("x-api-key");
   if (apiKey !== process.env.INTERNAL_API_KEY) return errorResponse("Unauthorized", 401);

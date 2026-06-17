@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   const apiKey = req.headers.get("x-api-key");
   if (apiKey !== process.env.INTERNAL_API_KEY) {

@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { authenticateTenant, errorResponse } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const tenant = await authenticateTenant(req);
   if (!tenant) return errorResponse("Unauthorized", 401);

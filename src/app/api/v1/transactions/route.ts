@@ -4,6 +4,8 @@ import { authenticateTenant, errorResponse } from "@/lib/auth";
 import { orchestrate } from "@/agents/orchestrator";
 import { PaymentMethod } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 // POST /api/v1/transactions — create and process a payment
 export async function POST(req: NextRequest) {
   const tenant = await authenticateTenant(req);

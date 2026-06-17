@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id          String   @id @default(uuid())
+  name        String
+  apiKey      String   @unique @default(uuid())
+  webhookUrl  String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  transactions Transaction[]
+  agentLogs    AgentLog[]
+
+  @@map("tenants")
+}
+
+model Transaction {
+  id            String            @id @default(uuid())
+  tenantId      String
+  externalId    String?
+  method        PaymentMethod
+  status        TransactionStatus @default(PENDING)
+  amount        Float
+  currency      String            @default("BRL")
+  description   String?
+  payerDocument String?
+  payerName     String?
+  payerEmail    String?
+  pixKey        String?
+  boletoCode    String?
+  cardLast4     String?
+  cardBrand     String?
+  riskScore     Float?
+  riskLevel     RiskLevel?
+  retryCount    Int               @default(0)
+  maxRetries    Int               @default(3)
+  metadata      Json?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  processedAt   DateTime?
+  failedAt      DateTime?
+
+  tenant    Tenant             @relation(fields: [tenantId], references: [id])
+  events    TransactionEvent[]
+  agentLogs AgentLog[]
+  webhooks  WebhookDelivery[]
+
+  @@unique([tenantId, externalId])
+  @@index([tenantId, status])
+  @@index([createdAt])
+  @@map("transactions")
+}
+
+model TransactionEvent {
+  id             String            @id @default(uuid())
+  transactionId  String
+  type           String
+  previousStatus TransactionStatus?
+  newStatus      TransactionStatus?
+  message        String?
+  metadata       Json?
+  createdAt      DateTime          @default(now())
+
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+
+  @@index([transactionId])
+  @@map("transaction_events")
+}
+
+model AgentLog {
+  id            String    @id @default(uuid())
+  tenantId      String?
+  transactionId String?
+  agentType     AgentType
+  input         Json
+  output        Json
+  decision      String?
+  confidence    Float?
+  humanRequired Boolean   @default(false)
+  escalatedTo   String?
+  tokensUsed    Int?
+  latencyMs     Int?
+  createdAt     DateTime  @default(now())
+
+  tenant      Tenant?      @relation(fields: [tenantId], references: [id])
+  transaction Transaction? @relation(fields: [transactionId], references: [id])
+
+  @@index([agentType, createdAt])
+  @@index([transactionId])
+  @@map("agent_logs")
+}
+
+model WebhookDelivery {
+  id            String        @id @default(uuid())
+  transactionId String
+  url           String
+  event         String
+  payload       Json
+  status        WebhookStatus @default(PENDING)
+  responseCode  Int?
+  responseBody  String?
+  attemptCount  Int           @default(0)
+  nextRetryAt   DateTime?
+  deliveredAt   DateTime?
+  createdAt     DateTime      @default(now())
+
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+
+  @@index([transactionId])
+  @@index([status, nextRetryAt])
+  @@map("webhook_deliveries")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  actor      String
+  action     String
+  resource   String
+  resourceId String?
+  details    Json?
+  ip         String?
+  createdAt  DateTime @default(now())
+
+  @@index([resource, resourceId])
+  @@index([actor, createdAt])
+  @@map("audit_logs")
+}
+
+enum PaymentMethod {
+  PIX
+  CREDIT_CARD
+  DEBIT_CARD
+  BOLETO
+}
+
+enum TransactionStatus {
+  PENDING
+  PROCESSING
+  AUTHORIZED
+  CAPTURED
+  FAILED
+  CANCELLED
+  REFUNDED
+  CHARGEBACK
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum AgentType {
+  DETECTOR
+  FRAUD
+  SUPPORT
+  ORCHESTRATOR
+}
+
+enum WebhookStatus {
+  PENDING
+  DELIVERED
+  FAILED
+  ABANDONED
+}

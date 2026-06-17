@@ -24,27 +24,53 @@ export function SimulateButton({ onSimulated }: { onSimulated: () => void }) {
     }
   }
 
+  const isError = last?.includes("BLOCK") || last === "ERRO";
+
   return (
-    <div className="flex items-center gap-2">
+    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
       {last && (
-        <span className={`text-xs px-2 py-0.5 rounded-full ${last.includes("BLOCK") || last === "ERRO" ? "bg-red-500/20 text-red-400" : "bg-green-500/20 text-green-400"}`}>
+        <span style={{
+          fontSize: 11,
+          fontWeight: 600,
+          padding: "3px 10px",
+          borderRadius: 6,
+          background: isError ? "rgba(239,68,68,0.12)" : "rgba(16,185,129,0.12)",
+          color: isError ? "#ef4444" : "#10b981",
+          fontFamily: "'Roboto Mono', monospace",
+        }}>
           {last}
         </span>
       )}
       <button
         onClick={simulate}
         disabled={loading}
-        className="text-xs px-3 py-1.5 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors flex items-center gap-1.5"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 7,
+          padding: "8px 18px",
+          background: loading ? "rgba(59,130,246,0.5)" : "linear-gradient(135deg,#2563eb,#3b82f6)",
+          color: "#fff",
+          border: "none",
+          borderRadius: 8,
+          fontSize: 13,
+          fontWeight: 600,
+          fontFamily: "'Roboto', sans-serif",
+          cursor: loading ? "not-allowed" : "pointer",
+          boxShadow: loading ? "none" : "0 2px 8px rgba(59,130,246,0.4)",
+          transition: "all 0.15s",
+        }}
       >
         {loading ? (
           <>
-            <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            <span style={{ width: 12, height: 12, border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} />
             Processando...
           </>
         ) : (
-          "⚡ Simular Transação"
+          <>⚡ Simular Transação</>
         )}
       </button>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }

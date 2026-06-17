@@ -9,83 +9,99 @@ interface Transaction {
   createdAt: string;
 }
 
-const STATUS_STYLES: Record<string, string> = {
-  CAPTURED: "bg-green-500/15 text-green-400",
-  FAILED: "bg-red-500/15 text-red-400",
-  PROCESSING: "bg-blue-500/15 text-blue-400",
-  PENDING: "bg-yellow-500/15 text-yellow-400",
-  CANCELLED: "bg-gray-500/15 text-gray-400",
-  CHARGEBACK: "bg-orange-500/15 text-orange-400",
+const STATUS_CONFIG: Record<string, { bg: string; color: string; label: string }> = {
+  CAPTURED:   { bg: "rgba(16,185,129,0.12)", color: "#10b981", label: "CAPTURADO" },
+  FAILED:     { bg: "rgba(239,68,68,0.12)",  color: "#ef4444", label: "FALHOU" },
+  PROCESSING: { bg: "rgba(59,130,246,0.12)", color: "#3b82f6", label: "PROCESSANDO" },
+  PENDING:    { bg: "rgba(245,158,11,0.12)", color: "#f59e0b", label: "PENDENTE" },
+  CANCELLED:  { bg: "rgba(107,114,128,0.12)", color: "#6b7280", label: "CANCELADO" },
+  CHARGEBACK: { bg: "rgba(249,115,22,0.12)", color: "#f97316", label: "CHARGEBACK" },
 };
 
-const RISK_STYLES: Record<string, string> = {
-  LOW: "text-green-400",
-  MEDIUM: "text-yellow-400",
-  HIGH: "text-orange-400",
-  CRITICAL: "text-red-400",
+const RISK_COLOR: Record<string, string> = {
+  LOW: "#10b981", MEDIUM: "#f59e0b", HIGH: "#f97316", CRITICAL: "#ef4444",
 };
 
-const METHOD_ICONS: Record<string, string> = {
-  PIX: "⚡",
-  CREDIT_CARD: "💳",
-  DEBIT_CARD: "🏦",
-  BOLETO: "📄",
+const METHOD_ICON: Record<string, string> = {
+  PIX: "⚡", CREDIT_CARD: "💳", DEBIT_CARD: "🏦", BOLETO: "📄",
 };
 
 export function TransactionTable({ transactions }: { transactions: Transaction[] }) {
   return (
-    <div className="bg-gray-900 rounded-xl border border-gray-800">
-      <div className="px-5 py-4 border-b border-gray-800">
-        <h2 className="font-semibold text-sm">Transações Recentes</h2>
-        <p className="text-xs text-gray-500 mt-0.5">Monitoradas pelos agentes de IA em tempo real</p>
+    <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" }}>
+      <div style={{ padding: "18px 22px 14px", borderBottom: "1px solid var(--border)" }}>
+        <h2 style={{ fontSize: 14, fontWeight: 600, marginBottom: 2 }}>Transações Recentes</h2>
+        <p style={{ fontSize: 12, color: "var(--text-muted)" }}>Monitoradas pelos agentes de IA em tempo real</p>
       </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
           <thead>
-            <tr className="text-xs text-gray-500 border-b border-gray-800">
-              <th className="text-left px-5 py-3 font-medium">ID</th>
-              <th className="text-left px-5 py-3 font-medium">Método</th>
-              <th className="text-left px-5 py-3 font-medium">Pagador</th>
-              <th className="text-right px-5 py-3 font-medium">Valor</th>
-              <th className="text-left px-5 py-3 font-medium">Risco</th>
-              <th className="text-left px-5 py-3 font-medium">Status</th>
+            <tr style={{ borderBottom: "1px solid var(--border)" }}>
+              {["ID", "Método", "Pagador", "Valor", "Risco", "Status"].map((h, i) => (
+                <th
+                  key={h}
+                  style={{
+                    padding: "10px 16px",
+                    fontSize: 11,
+                    fontWeight: 600,
+                    letterSpacing: "0.04em",
+                    textTransform: "uppercase",
+                    color: "var(--text-muted)",
+                    textAlign: i >= 3 && i <= 3 ? "right" : "left",
+                  }}
+                >
+                  {h}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {transactions.length === 0 && (
               <tr>
-                <td colSpan={6} className="text-center py-8 text-gray-600 text-xs">
-                  Nenhuma transação. Clique em "Simular" para começar.
+                <td colSpan={6} style={{ padding: "40px 16px", textAlign: "center", color: "var(--text-muted)", fontSize: 13 }}>
+                  Nenhuma transação. Clique em "Simular Transação" para começar.
                 </td>
               </tr>
             )}
-            {transactions.map((tx) => (
-              <tr key={tx.id} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
-                <td className="px-5 py-3 font-mono text-xs text-gray-400">{tx.id.slice(0, 8)}…</td>
-                <td className="px-5 py-3">
-                  <span className="text-base">{METHOD_ICONS[tx.method] ?? "💰"}</span>{" "}
-                  <span className="text-xs text-gray-400">{tx.method}</span>
-                </td>
-                <td className="px-5 py-3 text-gray-300">{tx.payerName ?? "—"}</td>
-                <td className="px-5 py-3 text-right font-medium">
-                  R$ {tx.amount.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-                </td>
-                <td className="px-5 py-3">
-                  {tx.riskLevel ? (
-                    <span className={`text-xs font-medium ${RISK_STYLES[tx.riskLevel] ?? "text-gray-400"}`}>
-                      {tx.riskScore?.toFixed(0)} · {tx.riskLevel}
+            {transactions.map((tx) => {
+              const st = STATUS_CONFIG[tx.status] ?? { bg: "rgba(107,114,128,0.12)", color: "#6b7280", label: tx.status };
+              return (
+                <tr
+                  key={tx.id}
+                  style={{ borderBottom: "1px solid var(--border)", transition: "background 0.1s" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-hover)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                >
+                  <td style={{ padding: "13px 16px", fontFamily: "'Roboto Mono', monospace", fontSize: 11, color: "var(--text-muted)" }}>
+                    {tx.id.slice(0, 8)}…
+                  </td>
+                  <td style={{ padding: "13px 16px" }}>
+                    <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ fontSize: 16 }}>{METHOD_ICON[tx.method] ?? "💰"}</span>
+                      <span style={{ fontSize: 11, color: "var(--text-muted)" }}>{tx.method}</span>
                     </span>
-                  ) : (
-                    <span className="text-gray-600 text-xs">—</span>
-                  )}
-                </td>
-                <td className="px-5 py-3">
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_STYLES[tx.status] ?? "bg-gray-500/15 text-gray-400"}`}>
-                    {tx.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td style={{ padding: "13px 16px", color: "var(--text-secondary)", fontWeight: 500 }}>{tx.payerName ?? "—"}</td>
+                  <td style={{ padding: "13px 16px", textAlign: "right", fontFamily: "'Roboto Mono', monospace", fontWeight: 500 }}>
+                    R$ {tx.amount.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                  </td>
+                  <td style={{ padding: "13px 16px" }}>
+                    {tx.riskLevel ? (
+                      <span style={{ fontSize: 12, fontWeight: 600, color: RISK_COLOR[tx.riskLevel] ?? "#6b7280" }}>
+                        {tx.riskScore?.toFixed(0)} · {tx.riskLevel}
+                      </span>
+                    ) : (
+                      <span style={{ color: "var(--text-muted)", fontSize: 12 }}>—</span>
+                    )}
+                  </td>
+                  <td style={{ padding: "13px 16px" }}>
+                    <span style={{ fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 6, background: st.bg, color: st.color }}>
+                      {st.label}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

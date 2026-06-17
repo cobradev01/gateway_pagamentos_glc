@@ -8,49 +8,50 @@ interface Summary {
 }
 
 export function StatsCards({ summary }: { summary: Summary }) {
+  const approvalPct = parseFloat(summary.approvalRate);
+  const latencyMs = parseInt(summary.avgAgentLatencyMs);
+
   const cards = [
     {
+      kpi: "kpi-blue",
       label: "Transações (24h)",
       value: summary.totalTransactions.toLocaleString("pt-BR"),
       sub: `${summary.capturedCount} aprovadas · ${summary.failedCount} falhas`,
-      color: "blue",
     },
     {
+      kpi: approvalPct >= 90 ? "kpi-green" : "kpi-amber",
       label: "Taxa de Aprovação",
       value: `${summary.approvalRate}%`,
       sub: "Últimas 24 horas",
-      color: parseFloat(summary.approvalRate) >= 90 ? "green" : "yellow",
     },
     {
+      kpi: "kpi-purple",
       label: "Volume Processado",
       value: `R$ ${parseFloat(summary.totalVolumeBRL).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`,
       sub: "Transações capturadas",
-      color: "purple",
     },
     {
+      kpi: latencyMs < 2000 ? "kpi-teal" : "kpi-amber",
       label: "Latência dos Agentes",
       value: `${summary.avgAgentLatencyMs}ms`,
-      sub: "Tempo médio de decisão de IA",
-      color: parseInt(summary.avgAgentLatencyMs) < 2000 ? "green" : "yellow",
+      sub: "Tempo médio de decisão IA",
     },
   ];
 
-  const colorMap: Record<string, string> = {
-    blue: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-    green: "bg-green-500/10 text-green-400 border-green-500/20",
-    yellow: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
-    purple: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-  };
-
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
       {cards.map((card) => (
-        <div key={card.label} className={`rounded-xl border p-5 ${colorMap[card.color]}`}>
-          <p className="text-xs font-medium opacity-70 mb-1">{card.label}</p>
-          <p className="text-2xl font-bold text-white">{card.value}</p>
-          <p className="text-xs mt-1 opacity-60">{card.sub}</p>
+        <div
+          key={card.label}
+          className={card.kpi}
+          style={{ borderRadius: 12, padding: "20px 22px" }}
+        >
+          <p style={{ fontSize: 11, fontWeight: 500, opacity: 0.8, marginBottom: 8, letterSpacing: "0.03em", textTransform: "uppercase" }}>{card.label}</p>
+          <p style={{ fontSize: 26, fontWeight: 700, lineHeight: 1, marginBottom: 6, fontFamily: "'Roboto Mono', monospace" }}>{card.value}</p>
+          <p style={{ fontSize: 11, opacity: 0.7 }}>{card.sub}</p>
         </div>
       ))}
+      <style>{`@media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr) !important; } }`}</style>
     </div>
   );
 }

@@ -8,46 +8,51 @@ interface AgentLog {
   createdAt: string;
 }
 
-const AGENT_COLORS: Record<string, string> = {
-  DETECTOR: "bg-blue-500/20 text-blue-300",
-  FRAUD: "bg-red-500/20 text-red-300",
-  SUPPORT: "bg-purple-500/20 text-purple-300",
-  ORCHESTRATOR: "bg-yellow-500/20 text-yellow-300",
-};
-
-const AGENT_ICONS: Record<string, string> = {
-  DETECTOR: "🔍",
-  FRAUD: "🛡️",
-  SUPPORT: "💬",
-  ORCHESTRATOR: "🤖",
+const AGENT_CONFIG: Record<string, { icon: string; color: string; bg: string }> = {
+  DETECTOR:     { icon: "🔍", color: "#3b82f6", bg: "rgba(59,130,246,0.12)" },
+  FRAUD:        { icon: "🛡️", color: "#ef4444", bg: "rgba(239,68,68,0.12)" },
+  SUPPORT:      { icon: "💬", color: "#8b5cf6", bg: "rgba(139,92,246,0.12)" },
+  ORCHESTRATOR: { icon: "🤖", color: "#f59e0b", bg: "rgba(245,158,11,0.12)" },
 };
 
 export function AgentActivityFeed({ logs }: { logs: AgentLog[] }) {
   return (
-    <div className="bg-gray-900 rounded-xl border border-gray-800">
-      <div className="px-5 py-4 border-b border-gray-800">
-        <h2 className="font-semibold text-sm">Atividade dos Agentes</h2>
-        <p className="text-xs text-gray-500 mt-0.5">Últimas decisões de IA</p>
+    <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" }}>
+      <div style={{ padding: "18px 20px 14px", borderBottom: "1px solid var(--border)" }}>
+        <h2 style={{ fontSize: 14, fontWeight: 600, marginBottom: 2 }}>Atividade dos Agentes</h2>
+        <p style={{ fontSize: 12, color: "var(--text-muted)" }}>Últimas decisões de IA</p>
       </div>
-      <div className="divide-y divide-gray-800/50 max-h-64 overflow-y-auto">
-        {logs.length === 0 && (
-          <p className="text-center text-gray-600 text-xs py-6">Sem atividade recente</p>
+      <div style={{ maxHeight: 260, overflowY: "auto" }}>
+        {logs.length === 0 ? (
+          <p style={{ textAlign: "center", color: "var(--text-muted)", fontSize: 13, padding: "28px 0" }}>Sem atividade recente</p>
+        ) : (
+          logs.map((log, i) => {
+            const cfg = AGENT_CONFIG[log.agentType] ?? { icon: "⚙️", color: "#6b7280", bg: "rgba(107,114,128,0.1)" };
+            return (
+              <div
+                key={log.id}
+                style={{
+                  display: "flex", alignItems: "flex-start", gap: 12, padding: "12px 20px",
+                  borderBottom: i < logs.length - 1 ? "1px solid var(--border)" : "none",
+                }}
+              >
+                <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 5, background: cfg.bg, color: cfg.color, flexShrink: 0, whiteSpace: "nowrap" }}>
+                  {cfg.icon} {log.agentType}
+                </span>
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <p style={{ fontSize: 12, fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: 2 }}>
+                    {log.decision ?? "—"}
+                  </p>
+                  <p style={{ fontSize: 11, color: "var(--text-muted)", fontFamily: "'Roboto Mono', monospace" }}>
+                    {log.confidence != null ? `${(log.confidence * 100).toFixed(0)}% conf · ` : ""}
+                    {log.latencyMs}ms
+                    {log.humanRequired && " · ⚠️ humano"}
+                  </p>
+                </div>
+              </div>
+            );
+          })
         )}
-        {logs.map((log) => (
-          <div key={log.id} className="px-5 py-3 flex items-start gap-3">
-            <span className={`text-xs px-1.5 py-0.5 rounded font-medium shrink-0 ${AGENT_COLORS[log.agentType] ?? "bg-gray-500/20 text-gray-300"}`}>
-              {AGENT_ICONS[log.agentType]} {log.agentType}
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-medium text-white truncate">{log.decision ?? "—"}</p>
-              <p className="text-xs text-gray-500">
-                {log.confidence != null ? `${(log.confidence * 100).toFixed(0)}% confiança · ` : ""}
-                {log.latencyMs}ms
-                {log.humanRequired && " · ⚠️ humano"}
-              </p>
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );

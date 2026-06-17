@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import Link from "next/link";
 import { StatsCards } from "@/components/dashboard/StatsCards";
 import { TransactionTable } from "@/components/dashboard/TransactionTable";
 import { AgentActivityFeed } from "@/components/dashboard/AgentActivityFeed";
@@ -67,30 +68,41 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-400 text-sm">Conectando aos agentes de IA...</p>
+      <div style={{ minHeight: "100vh", background: "var(--bg-app)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ textAlign: "center" }}>
+          <div style={{ width: 40, height: 40, border: "3px solid rgba(59,130,246,0.3)", borderTopColor: "#3b82f6", borderRadius: "50%", animation: "spin 0.8s linear infinite", margin: "0 auto 16px" }} />
+          <p style={{ fontSize: 13, color: "var(--text-muted)", fontFamily: "'Roboto', sans-serif" }}>Conectando aos agentes de IA...</p>
         </div>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div style={{ minHeight: "100vh", background: "var(--bg-app)", color: "var(--text-primary)", fontFamily: "'Roboto', sans-serif" }}>
+
       {/* Header */}
-      <header className="border-b border-gray-800 bg-gray-900/50 backdrop-blur sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-sm font-bold">G</div>
-            <div>
-              <h1 className="font-semibold text-white">GLC Tecnologia</h1>
-              <p className="text-xs text-gray-400">Gateway de Pagamentos com IA</p>
+      <header style={{ borderBottom: "1px solid var(--border)", background: "rgba(15,17,23,0.85)", backdropFilter: "blur(12px)", position: "sticky", top: 0, zIndex: 50 }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <Link
+              href="/"
+              style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--text-muted)", textDecoration: "none", padding: "5px 10px", border: "1px solid var(--border)", borderRadius: 7 }}
+            >
+              ← Início
+            </Link>
+            <div style={{ width: 1, height: 20, background: "var(--border)" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <div style={{ width: 30, height: 30, borderRadius: 8, background: "linear-gradient(135deg,#2563eb,#3b82f6)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 13 }}>G</div>
+              <div>
+                <p style={{ fontSize: 13, fontWeight: 600, lineHeight: 1 }}>GLC Tecnologia</p>
+                <p style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1, marginTop: 2 }}>Gateway de Pagamentos com IA</p>
+              </div>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 text-xs text-green-400">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#22c55e" }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", display: "inline-block" }} />
               Agentes ativos
             </div>
             <SimulateButton onSimulated={fetchData} />
@@ -98,29 +110,33 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
-        {data && (
+      {/* Main */}
+      <main style={{ maxWidth: 1280, margin: "0 auto", padding: "32px 24px", display: "flex", flexDirection: "column", gap: 28 }}>
+        {data ? (
           <>
             <StatsCards summary={data.summary} />
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2">
-                <TransactionTable transactions={data.recentTransactions} />
-              </div>
-              <div className="space-y-6">
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 360px", gap: 20 }}>
+              <TransactionTable transactions={data.recentTransactions} />
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <RiskChart distribution={data.riskDistribution} />
                 <AgentActivityFeed logs={data.recentAgentLogs} />
               </div>
             </div>
           </>
-        )}
-
-        {!data && (
-          <div className="text-center py-20 text-gray-500">
+        ) : (
+          <div style={{ textAlign: "center", padding: "80px 0", color: "var(--text-muted)", fontSize: 14 }}>
             Nenhum dado disponível. Configure o banco de dados e rode uma simulação.
           </div>
         )}
       </main>
+
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @media (max-width: 900px) {
+          main > div:last-child { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </div>
   );
 }

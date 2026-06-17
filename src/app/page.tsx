@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const agents = [
   { icon: "🔍", name: "Agente Detector",     tag: "DETECTOR",     tagColor: "#3b82f6", desc: "Monitora falhas, timeouts e anomalias em tempo real. Sugere retry automático ou escalonamento." },
@@ -38,25 +39,26 @@ export default function Home() {
         .hero-content { animation: fadeUp 0.6s ease both; }
       `}</style>
 
-      <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "var(--bg-app)", color: "var(--text-primary)" }}>
 
         {/* ── Nav ── */}
-        <nav style={{ borderBottom: "1px solid rgba(255,255,255,0.07)", background: "rgba(15,17,23,0.9)", backdropFilter: "blur(16px)", position: "sticky", top: 0, zIndex: 50 }}>
+        <nav style={{ borderBottom: "1px solid var(--border)", background: "var(--nav-bg)", backdropFilter: "blur(16px)", position: "sticky", top: 0, zIndex: 50 }}>
           <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 28px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ width: 34, height: 34, borderRadius: 9, background: "linear-gradient(135deg,#1d4ed8,#3b82f6)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 15, color: "#fff", flexShrink: 0 }}>G</div>
               <div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: "#f3f4f6", lineHeight: 1.1 }}>GLC Tecnologia</p>
-                <p style={{ fontSize: 11, color: "#6b7280", lineHeight: 1.1, marginTop: 1 }}>Gateway de Pagamentos com IA</p>
+                <p style={{ fontSize: 14, fontWeight: 600, color: "var(--text-primary)", lineHeight: 1.1 }}>GLC Tecnologia</p>
+                <p style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.1, marginTop: 1 }}>Gateway de Pagamentos com IA</p>
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <ThemeToggle />
               <a
                 href="https://github.com/cobradev01/gateway_pagamentos_glc"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="nav-link"
-                style={{ fontSize: 12, fontWeight: 500, color: "#9ca3af", padding: "7px 14px", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8, transition: "all 0.15s" }}
+                style={{ fontSize: 12, fontWeight: 500, color: "var(--text-muted)", padding: "7px 14px", border: "1px solid var(--border)", borderRadius: 8, transition: "all 0.15s" }}
               >
                 GitHub
               </a>

@@ -13,6 +13,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="h-full antialiased">
+      <head>
+        {/* prevent flash of wrong theme */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function(){
+            var t = localStorage.getItem('theme');
+            if (t === 'light') document.documentElement.classList.add('light');
+          })();
+        `}} />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

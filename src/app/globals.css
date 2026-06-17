@@ -6,15 +6,36 @@
   --font-mono: 'Roboto Mono', monospace;
 }
 
+/* dark (default) */
 :root {
   --bg-app:      #0f1117;
   --bg-card:     #16181f;
   --bg-elevated: #1e2130;
   --bg-hover:    rgba(255,255,255,0.03);
   --border:      rgba(255,255,255,0.07);
+  --nav-bg:      rgba(15,17,23,0.9);
   --text-primary:   #f3f4f6;
   --text-secondary: #d1d5db;
   --text-muted:     #6b7280;
+  --text-faint:     #374151;
+  --code-bg:        #1e2130;
+  --code-color:     #a5b4fc;
+}
+
+/* light */
+html.light {
+  --bg-app:      #f4f6f9;
+  --bg-card:     #ffffff;
+  --bg-elevated: #f0f2f5;
+  --bg-hover:    rgba(0,0,0,0.02);
+  --border:      rgba(0,0,0,0.08);
+  --nav-bg:      rgba(244,246,249,0.92);
+  --text-primary:   #0f172a;
+  --text-secondary: #334155;
+  --text-muted:     #64748b;
+  --text-faint:     #cbd5e1;
+  --code-bg:        #e8edf5;
+  --code-color:     #4f46e5;
 }
 
 * { box-sizing: border-box; }

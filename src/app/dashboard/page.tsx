@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { StatsCards } from "@/components/dashboard/StatsCards";
 import { TransactionTable } from "@/components/dashboard/TransactionTable";
 import { AgentActivityFeed } from "@/components/dashboard/AgentActivityFeed";
@@ -100,11 +101,12 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#22c55e" }}>
               <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", display: "inline-block" }} />
               Agentes ativos
             </div>
+            <ThemeToggle />
             <SimulateButton onSimulated={fetchData} />
           </div>
         </div>

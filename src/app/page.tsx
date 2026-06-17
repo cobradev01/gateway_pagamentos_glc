@@ -80,16 +80,16 @@ export default function Home() {
               <span style={{ fontSize: 12, fontWeight: 500, color: "#60a5fa", letterSpacing: "0.04em" }}>Desafio Técnico — Desenvolvedor Pleno</span>
             </div>
 
-            <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 3.5rem)", fontWeight: 700, lineHeight: 1.12, letterSpacing: "-0.025em", color: "#f9fafb", marginBottom: 22 }}>
+            <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 3.5rem)", fontWeight: 700, lineHeight: 1.12, letterSpacing: "-0.025em", color: "var(--text-primary)", marginBottom: 22 }}>
               Gateway de Pagamentos<br />
               <span style={{ background: "linear-gradient(90deg,#3b82f6,#818cf8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>com Inteligência Artificial</span>
             </h1>
 
-            <p style={{ fontSize: 16, lineHeight: 1.75, color: "#9ca3af", marginBottom: 10 }}>
-              Sistema multi-tenant com <strong style={{ color: "#d1d5db", fontWeight: 600 }}>4 agentes de IA autônomos</strong> para detecção de
+            <p style={{ fontSize: 16, lineHeight: 1.75, color: "var(--text-muted)", marginBottom: 10 }}>
+              Sistema multi-tenant com <strong style={{ color: "var(--text-secondary)", fontWeight: 600 }}>4 agentes de IA autônomos</strong> para detecção de
               falhas, antifraude em tempo real, suporte inteligente e orquestração de decisões.
             </p>
-            <p style={{ fontSize: 13, color: "#4b5563", marginBottom: 44 }}>Construído por <span style={{ color: "#6b7280", fontWeight: 500 }}>GLC Tecnologia</span></p>
+            <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 44 }}>Construído por <span style={{ fontWeight: 500 }}>GLC Tecnologia</span></p>
 
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
               <Link
@@ -104,7 +104,7 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cta-secondary"
-                style={{ padding: "13px 32px", border: "1px solid rgba(255,255,255,0.1)", color: "#9ca3af", borderRadius: 10, fontWeight: 500, fontSize: 14, transition: "all 0.2s" }}
+                style={{ padding: "13px 32px", border: "1px solid var(--border)", color: "var(--text-muted)", borderRadius: 10, fontWeight: 500, fontSize: 14, transition: "all 0.2s" }}
               >
                 Ver no GitHub
               </a>
@@ -116,22 +116,22 @@ export default function Home() {
         <section style={{ maxWidth: 1080, margin: "0 auto", padding: "0 28px 80px", width: "100%" }}>
           <div style={{ marginBottom: 36 }}>
             <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", color: "#3b82f6", textTransform: "uppercase", marginBottom: 8 }}>Arquitetura de Agentes</p>
-            <h2 style={{ fontSize: 22, fontWeight: 700, color: "#f3f4f6" }}>Os 4 Agentes de IA</h2>
-            <p style={{ fontSize: 13, color: "#6b7280", marginTop: 6 }}>Cada agente usa Claude (Anthropic) com prompts especializados e loga todas as decisões no banco.</p>
+            <h2 style={{ fontSize: 22, fontWeight: 700, color: "var(--text-primary)" }}>Os 4 Agentes de IA</h2>
+            <p style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 6 }}>Cada agente usa Claude (Anthropic) com prompts especializados e loga todas as decisões no banco.</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: 14 }}>
             {agents.map((a) => (
               <div
                 key={a.name}
                 className="agent-card"
-                style={{ background: "#16181f", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 12, padding: "22px 20px", transition: "all 0.2s", cursor: "default" }}
+                style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12, padding: "22px 20px", transition: "all 0.2s", cursor: "default", boxShadow: "var(--shadow-card, none)" }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
                   <span style={{ fontSize: 20 }}>{a.icon}</span>
                   <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", color: a.tagColor, background: `${a.tagColor}15`, padding: "3px 8px", borderRadius: 4 }}>{a.tag}</span>
                 </div>
-                <p style={{ fontSize: 13, fontWeight: 600, color: "#e5e7eb", marginBottom: 8 }}>{a.name}</p>
-                <p style={{ fontSize: 12, color: "#6b7280", lineHeight: 1.7 }}>{a.desc}</p>
+                <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", marginBottom: 8 }}>{a.name}</p>
+                <p style={{ fontSize: 12, color: "var(--text-muted)", lineHeight: 1.7 }}>{a.desc}</p>
               </div>
             ))}
           </div>
@@ -141,23 +141,23 @@ export default function Home() {
         <section style={{ maxWidth: 1080, margin: "0 auto", padding: "0 28px 80px", width: "100%" }}>
           <div style={{ marginBottom: 28 }}>
             <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", color: "#3b82f6", textTransform: "uppercase", marginBottom: 8 }}>Integração</p>
-            <h2 style={{ fontSize: 22, fontWeight: 700, color: "#f3f4f6" }}>API REST</h2>
-            <p style={{ fontSize: 13, color: "#6b7280", marginTop: 6 }}>
+            <h2 style={{ fontSize: 22, fontWeight: 700, color: "var(--text-primary)" }}>API REST</h2>
+            <p style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 6 }}>
               Autenticação via{" "}
-              <code style={{ background: "#1e2130", padding: "2px 7px", borderRadius: 5, fontFamily: "'Roboto Mono', monospace", fontSize: 11, color: "#a5b4fc" }}>x-api-key</code>
+              <code style={{ background: "var(--code-bg)", padding: "2px 7px", borderRadius: 5, fontFamily: "'Roboto Mono', monospace", fontSize: 11, color: "var(--code-color)" }}>x-api-key</code>
               {" "}header. Multi-tenant com idempotência nativa.
             </p>
           </div>
-          <div style={{ background: "#16181f", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 12, overflow: "hidden" }}>
+          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden", boxShadow: "var(--shadow-card, none)" }}>
             {endpoints.map((e, i) => (
               <div
                 key={e.path}
                 className="endpoint-row"
-                style={{ display: "flex", alignItems: "center", gap: 16, padding: "14px 22px", borderBottom: i < endpoints.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none", transition: "background 0.12s" }}
+                style={{ display: "flex", alignItems: "center", gap: 16, padding: "14px 22px", borderBottom: i < endpoints.length - 1 ? "1px solid var(--border)" : "none", transition: "background 0.12s" }}
               >
                 <span style={{ fontSize: 11, fontWeight: 700, width: 44, flexShrink: 0, color: e.method === "POST" ? "#3b82f6" : "#10b981", fontFamily: "'Roboto Mono', monospace" }}>{e.method}</span>
-                <code style={{ fontSize: 12, fontFamily: "'Roboto Mono', monospace", color: "#d1d5db", flex: 1 }}>{e.path}</code>
-                <span style={{ fontSize: 12, color: "#6b7280" }}>{e.desc}</span>
+                <code style={{ fontSize: 12, fontFamily: "'Roboto Mono', monospace", color: "var(--text-secondary)", flex: 1 }}>{e.path}</code>
+                <span style={{ fontSize: 12, color: "var(--text-muted)" }}>{e.desc}</span>
               </div>
             ))}
           </div>
@@ -167,21 +167,21 @@ export default function Home() {
         <section style={{ maxWidth: 1080, margin: "0 auto", padding: "0 28px 80px", width: "100%" }}>
           <div style={{ marginBottom: 28 }}>
             <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", color: "#3b82f6", textTransform: "uppercase", marginBottom: 8 }}>Tecnologias</p>
-            <h2 style={{ fontSize: 22, fontWeight: 700, color: "#f3f4f6" }}>Stack</h2>
+            <h2 style={{ fontSize: 22, fontWeight: 700, color: "var(--text-primary)" }}>Stack</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 14 }}>
             {stack.map((s) => (
-              <div key={s.name} style={{ background: "#16181f", border: `1px solid ${s.border}`, borderRadius: 12, padding: "18px 20px" }}>
-                <p style={{ fontWeight: 600, fontSize: 14, color: "#e5e7eb", marginBottom: 4 }}>{s.name}</p>
-                <p style={{ fontSize: 12, color: "#6b7280" }}>{s.sub}</p>
+              <div key={s.name} style={{ background: "var(--bg-card)", border: `1px solid ${s.border}`, borderRadius: 12, padding: "18px 20px", boxShadow: "var(--shadow-card, none)" }}>
+                <p style={{ fontWeight: 600, fontSize: 14, color: "var(--text-primary)", marginBottom: 4 }}>{s.name}</p>
+                <p style={{ fontSize: 12, color: "var(--text-muted)" }}>{s.sub}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* ── Footer ── */}
-        <footer style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "24px 28px", textAlign: "center" }}>
-          <p style={{ fontSize: 12, color: "#374151" }}>
+        <footer style={{ borderTop: "1px solid var(--border)", padding: "24px 28px", textAlign: "center" }}>
+          <p style={{ fontSize: 12, color: "var(--text-muted)" }}>
             © 2025 GLC Tecnologia · Gateway de Pagamentos com IA · Desafio Técnico Desenvolvedor Pleno
           </p>
         </footer>

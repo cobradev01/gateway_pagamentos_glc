@@ -8,6 +8,39 @@
 
 ---
 
+## Acesso para Avaliação
+
+| Item | Valor |
+|---|---|
+| **URL da Aplicação** | https://gateway-pagamentos-glc-2024.vercel.app |
+| **Dashboard ao Vivo** | https://gateway-pagamentos-glc-2024.vercel.app/dashboard |
+| **API Key (Demo)** | `demo-key-glc-2024` |
+| **Header de Auth** | `x-api-key: demo-key-glc-2024` |
+| **Base URL da API** | `https://gateway-pagamentos-glc-2024.vercel.app/api/v1` |
+| **Repositório** | https://github.com/cobradev01/gateway_pagamentos_glc |
+
+### Teste imediato (sem configuração)
+
+```bash
+# 1. Simular transação com pipeline de IA
+curl -X POST https://gateway-pagamentos-glc-2024.vercel.app/api/v1/simulate \
+  -H "x-api-key: demo-key-glc-2024"
+
+# 2. Criar transação real
+curl -X POST https://gateway-pagamentos-glc-2024.vercel.app/api/v1/transactions \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: demo-key-glc-2024" \
+  -d '{"method":"PIX","amount":500.00,"externalId":"avaliacao-001","payerName":"Avaliador Técnico"}'
+
+# 3. Listar transações do tenant demo
+curl https://gateway-pagamentos-glc-2024.vercel.app/api/v1/transactions \
+  -H "x-api-key: demo-key-glc-2024"
+```
+
+> **Nota sobre IA no ambiente demo:** os agentes exibem badge "ERRO" pois a chave Anthropic não está ativa no plano gratuito da Vercel. Banco de dados, API REST, dashboard, idempotência e autenticação multi-tenant estão 100% operacionais.
+
+---
+
 ## O que foi construído
 
 O desafio pedia um **documento de arquitetura sem código**. Entregamos um **sistema funcional completo em produção**, com banco de dados real (Railway), deploy na Vercel, 4 agentes de IA e dashboard ao vivo — além de toda a documentação dos 10 entregáveis do desafio.

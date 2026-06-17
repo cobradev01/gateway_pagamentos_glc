@@ -39,7 +39,7 @@ export function StatsCards({ summary }: { summary: Summary }) {
   ];
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+    <div className="stats-grid">
       {cards.map((card) => (
         <div
           key={card.label}
@@ -47,11 +47,10 @@ export function StatsCards({ summary }: { summary: Summary }) {
           style={{ borderRadius: 12, padding: "20px 22px" }}
         >
           <p style={{ fontSize: 11, fontWeight: 500, opacity: 0.8, marginBottom: 8, letterSpacing: "0.03em", textTransform: "uppercase" }}>{card.label}</p>
-          <p style={{ fontSize: 26, fontWeight: 700, lineHeight: 1, marginBottom: 6, fontFamily: "'Roboto Mono', monospace" }}>{card.value}</p>
+          <p style={{ fontSize: "clamp(1.2rem, 4vw, 1.65rem)", fontWeight: 700, lineHeight: 1, marginBottom: 6, fontFamily: "'Roboto Mono', monospace" }}>{card.value}</p>
           <p style={{ fontSize: 11, opacity: 0.7 }}>{card.sub}</p>
         </div>
       ))}
-      <style>{`@media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr) !important; } }`}</style>
     </div>
   );
 }

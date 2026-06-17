@@ -64,7 +64,7 @@ export function SimulateButton({ onSimulated }: { onSimulated: () => void }) {
               position: "absolute",
               top: "calc(100% + 10px)",
               right: 0,
-              width: 320,
+              width: "min(320px, calc(100vw - 24px))",
               background: "#1e2130",
               border: "1px solid rgba(239,68,68,0.25)",
               borderRadius: 10,

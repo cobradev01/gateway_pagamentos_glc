@@ -84,26 +84,26 @@ export default function DashboardPage() {
 
       {/* Header */}
       <header style={{ borderBottom: "1px solid var(--border)", background: "rgba(15,17,23,0.85)", backdropFilter: "blur(12px)", position: "sticky", top: 0, zIndex: 50 }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 16px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60, gap: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
             <Link
               href="/"
-              style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--text-muted)", textDecoration: "none", padding: "5px 10px", border: "1px solid var(--border)", borderRadius: 7 }}
+              style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--text-muted)", textDecoration: "none", padding: "5px 10px", border: "1px solid var(--border)", borderRadius: 7, flexShrink: 0 }}
             >
               ← Início
             </Link>
-            <div style={{ width: 1, height: 20, background: "var(--border)" }} />
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <div style={{ width: 30, height: 30, borderRadius: 8, background: "linear-gradient(135deg,#2563eb,#3b82f6)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 13 }}>G</div>
-              <div>
-                <p style={{ fontSize: 13, fontWeight: 600, lineHeight: 1 }}>GLC Tecnologia</p>
-                <p style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1, marginTop: 2 }}>Gateway de Pagamentos com IA</p>
+            <div className="hide-mobile" style={{ width: 1, height: 20, background: "var(--border)", flexShrink: 0 }} />
+            <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+              <div style={{ width: 30, height: 30, borderRadius: 8, background: "linear-gradient(135deg,#2563eb,#3b82f6)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 13, flexShrink: 0 }}>G</div>
+              <div style={{ minWidth: 0 }}>
+                <p style={{ fontSize: 13, fontWeight: 600, lineHeight: 1, whiteSpace: "nowrap" }}>GLC Tecnologia</p>
+                <p style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1, marginTop: 2, whiteSpace: "nowrap" }}>Gateway de Pagamentos com IA</p>
               </div>
             </div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#22c55e" }}>
-              <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", display: "inline-block" }} />
+          <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+            <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#22c55e", whiteSpace: "nowrap" }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", display: "inline-block", flexShrink: 0 }} />
               Agentes ativos
             </div>
             <ThemeToggle />
@@ -113,12 +113,12 @@ export default function DashboardPage() {
       </header>
 
       {/* Main */}
-      <main style={{ maxWidth: 1280, margin: "0 auto", padding: "32px 24px", display: "flex", flexDirection: "column", gap: 28 }}>
+      <main style={{ maxWidth: 1280, margin: "0 auto", padding: "24px 16px", display: "flex", flexDirection: "column", gap: 24 }}>
         {data ? (
           <>
             <StatsCards summary={data.summary} />
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 360px", gap: 20 }}>
+            <div className="dashboard-grid">
               <TransactionTable transactions={data.recentTransactions} />
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <RiskChart distribution={data.riskDistribution} />
@@ -133,12 +133,7 @@ export default function DashboardPage() {
         )}
       </main>
 
-      <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @media (max-width: 900px) {
-          main > div:last-child { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }

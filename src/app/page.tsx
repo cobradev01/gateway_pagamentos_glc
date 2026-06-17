@@ -1,11 +1,23 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { ScanSearch, ShieldAlert, MessageSquareDot, Network } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-const agents = [
-  { icon: "🔍", name: "Agente Detector",     tag: "DETECTOR",     tagColor: "#3b82f6", desc: "Monitora falhas, timeouts e anomalias em tempo real. Sugere retry automático ou escalonamento." },
-  { icon: "🛡️", name: "Agente Antifraude",  tag: "FRAUDE",       tagColor: "#ef4444", desc: "Score de risco 0–100 por transação. Bloqueia automaticamente riscos CRITICAL antes da captura." },
-  { icon: "💬", name: "Agente de Suporte",  tag: "SUPORTE",      tagColor: "#8b5cf6", desc: "Diagnóstico técnico sob demanda. Rascunha resposta ao cliente com base no histórico da transação." },
-  { icon: "🤖", name: "Agente Orquestrador", tag: "ORQUESTRADOR", tagColor: "#f59e0b", desc: "Coordena os demais agentes e toma a decisão final: APROVAR, RETRY, BLOQUEAR ou ESCALAR HUMANO." },
+interface Agent {
+  Icon: LucideIcon;
+  iconBg: string;
+  iconColor: string;
+  name: string;
+  tag: string;
+  tagColor: string;
+  desc: string;
+}
+
+const agents: Agent[] = [
+  { Icon: ScanSearch,       iconBg: "rgba(59,130,246,0.12)",  iconColor: "#3b82f6", name: "Agente Detector",     tag: "DETECTOR",     tagColor: "#3b82f6", desc: "Monitora falhas, timeouts e anomalias em tempo real. Sugere retry automático ou escalonamento." },
+  { Icon: ShieldAlert,      iconBg: "rgba(239,68,68,0.12)",   iconColor: "#ef4444", name: "Agente Antifraude",   tag: "FRAUDE",       tagColor: "#ef4444", desc: "Score de risco 0–100 por transação. Bloqueia automaticamente riscos CRITICAL antes da captura." },
+  { Icon: MessageSquareDot, iconBg: "rgba(139,92,246,0.12)",  iconColor: "#8b5cf6", name: "Agente de Suporte",   tag: "SUPORTE",      tagColor: "#8b5cf6", desc: "Diagnóstico técnico sob demanda. Rascunha resposta ao cliente com base no histórico da transação." },
+  { Icon: Network,          iconBg: "rgba(245,158,11,0.12)",  iconColor: "#f59e0b", name: "Agente Orquestrador", tag: "ORQUESTRADOR", tagColor: "#f59e0b", desc: "Coordena os demais agentes e toma a decisão final: APROVAR, RETRY, BLOQUEAR ou ESCALAR HUMANO." },
 ];
 
 const endpoints = [
@@ -124,14 +136,16 @@ export default function Home() {
               <div
                 key={a.name}
                 className="agent-card"
-                style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12, padding: "22px 20px", transition: "all 0.2s", cursor: "default", boxShadow: "var(--shadow-card, none)" }}
+                style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 14, padding: "24px 22px", transition: "all 0.2s", cursor: "default", boxShadow: "var(--shadow-card, none)" }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-                  <span style={{ fontSize: 20 }}>{a.icon}</span>
-                  <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", color: a.tagColor, background: `${a.tagColor}15`, padding: "3px 8px", borderRadius: 4 }}>{a.tag}</span>
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 18 }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 11, background: a.iconBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <a.Icon size={20} color={a.iconColor} strokeWidth={1.75} />
+                  </div>
+                  <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", color: a.tagColor, background: `${a.tagColor}15`, padding: "3px 9px", borderRadius: 5 }}>{a.tag}</span>
                 </div>
-                <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", marginBottom: 8 }}>{a.name}</p>
-                <p style={{ fontSize: 12, color: "var(--text-muted)", lineHeight: 1.7 }}>{a.desc}</p>
+                <p style={{ fontSize: 14, fontWeight: 600, color: "var(--text-primary)", marginBottom: 8 }}>{a.name}</p>
+                <p style={{ fontSize: 12.5, color: "var(--text-muted)", lineHeight: 1.7 }}>{a.desc}</p>
               </div>
             ))}
           </div>
